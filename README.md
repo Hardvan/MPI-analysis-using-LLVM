@@ -2,6 +2,12 @@
 
 This project aims to analyze the uniform participation patterns of MPI processes in C/C++ code using LLVM/Clang. By leveraging the LLVM framework, we develop a custom analysis pass that identifies MPI communication calls and detects patterns of uniform participation among MPI processes.
 
+## Team Members
+1. Abhishek Yadav
+2. Hardik Pawar
+3. Harshit Dhoot
+4. Karan Sathish
+
 ## Features
 
 - **MPI Communication Analysis**: Detects and analyzes MPI_Send and MPI_Recv calls.
