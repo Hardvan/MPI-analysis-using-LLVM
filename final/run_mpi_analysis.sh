@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Step 1: Compile mpi_example.c to LLVM IR (input.ll)
-clang -I/usr/include/lam -emit-llvm -S mpi_example.c -o input.ll
-echo "✅ Step 1: Compiled mpi_example.c to LLVM IR (input.ll)"
+clang -I/usr/include/lam -emit-llvm -S mpi_example2.c -o input.ll
+echo "✅ Step 1: Compiled mpi_example2.c to LLVM IR (input.ll)"
 
 # Step 2: Compile the MPIAnalysisPass.cpp to a shared object (MPIAnalysisPass.so)
 clang++ -shared -fPIC -o MPIAnalysisPass.so MPIAnalysisPass.cpp `llvm-config --cxxflags --ldflags --libs`
