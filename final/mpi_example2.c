@@ -1,6 +1,9 @@
 #include <mpi.h>
 #include <stdio.h>
 
+// MPI_Send format: MPI_Send(buffer, count, datatype, destination, tag, communicator)
+// MPI_Recv format: MPI_Recv(buffer, count, datatype, source, tag, communicator, status)
+
 int main(int argc, char **argv)
 {
     // Initialize the MPI environment
@@ -18,8 +21,7 @@ int main(int argc, char **argv)
     {
         int data = 100;                                    // Data to send
         MPI_Send(&data, 1, MPI_INT, 1, 0, MPI_COMM_WORLD); // Process 0 sends data to Process 1 with tag 0
-        // Send to Process 2
-        MPI_Send(&data, 1, MPI_INT, 2, 0, MPI_COMM_WORLD);
+        MPI_Send(&data, 1, MPI_INT, 2, 0, MPI_COMM_WORLD); // Process 0 sends data to Process 2 with tag 0
     }
     else if (rank == 1) // Process 1
     {
@@ -41,14 +43,7 @@ int main(int argc, char **argv)
     {
         int data = 200; // Data to send
         MPI_Recv(&data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        // MPI_Send(&data, 1, MPI_INT, 3, 1, custom_comm); // Process 2 sends data to Process 3 with tag 1 within custom_comm
     }
-    // else if (rank == 3) // Process 3
-    // {
-    //     int data;                                                          // Buffer to receive data
-    //     MPI_Recv(&data, 1, MPI_INT, 2, 1, custom_comm, MPI_STATUS_IGNORE); // Process 3 receives data from Process 2 with tag 1 within custom_comm
-    //     printf("Process 3 received data: %d\n", data);
-    // }
 
     // Finalize the MPI environment
     MPI_Finalize();

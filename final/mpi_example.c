@@ -1,6 +1,9 @@
 #include <mpi.h>
 #include <stdio.h>
 
+// MPI_Send format: MPI_Send(buffer, count, datatype, destination, tag, communicator)
+// MPI_Recv format: MPI_Recv(buffer, count, datatype, source, tag, communicator, status)
+
 int main(int argc, char **argv)
 {
     // Initialize the MPI environment
