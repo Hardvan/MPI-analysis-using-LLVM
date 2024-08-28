@@ -62,7 +62,7 @@ namespace
         void analyzeMPICall(CallInst *call, StringRef funcName)
         {
             MPICommunication mpiComm;
-            mpiComm.type = funcName.str(); // Store the type of MPI call.
+            mpiComm.type = funcName.str(); // Store the type of MPI call. (MPI_Send or MPI_Recv)
 
             // Assuming the communicator is always MPI_COMM_WORLD.
             mpiComm.comm = "MPI_COMM_WORLD";
@@ -93,7 +93,7 @@ namespace
         {
             errs() << "[INFO] Analyzing Uniform Participation Patterns...\n";
 
-            std::map<std::pair<std::string, int>, std::set<int>> participationMap;
+            std::map<std::pair<std::string, int>, std::set<int>> participationMap; // (comm, tag) -> {ranks}
 
             // Populate participationMap with ranks involved in each (comm, tag) pair.
             for (const auto &call : mpiCalls)
