@@ -99,8 +99,18 @@ int main(int argc, char **argv)
 
 /*
 OUTPUT:
-✅ Step 1: Compiled mpi_example.c to LLVM IR (input.ll)
-✅ Step 2: Compiled MPIAnalysisPass.cpp to shared object (MPIAnalysisPass.so)
+🚀 Analyzing Uniform Participation of MPI Processes Using LLVM/Clang 🚀
+
+🔍 Step 1: Compiling mpi_example.c to LLVM IR (input.ll)
+⛓️  Executing: clang -I/usr/include/lam -emit-llvm -S mpi_example.c -o input.ll
+✅ Compiled in 83 ms
+
+🔍 Step 2: Compiling MPIAnalysisPass.cpp to shared object (MPIAnalysisPass.so)
+⛓️  Executing: clang++ -shared -fPIC -o MPIAnalysisPass.so MPIAnalysisPass.cpp `llvm-config --cxxflags --ldflags --libs`
+✅ Compiled in 4022 ms
+
+🔍 Step 3: Running mpi-analysis pass on input.ll
+⛓️  Executing: opt -load-pass-plugin=./MPIAnalysisPass.so -passes="mpi-analysis" < input.ll > /dev/null
 MPIAnalysisPass running on function: main
 [INFO] Detected MPI MPI_Send: comm=MPI_COMM_WORLD, tag=0, rank=1
 [INFO] Detected MPI MPI_Recv: comm=MPI_COMM_WORLD, tag=0, rank=0
@@ -147,5 +157,5 @@ Uniform Participation Report:
 This indicates that both MPI_Send and MPI_Recv operations with tag 3 in communicator
 MPI_COMM_WORLD involve these ranks.
 
-✅ Step 3: Ran mpi-analysis pass on input.ll
+✅ Ran mpi-analysis pass on input.ll in 26 ms
 */
