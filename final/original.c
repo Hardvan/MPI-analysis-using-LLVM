@@ -12,24 +12,32 @@ Process communication:
 
 int main(int argc, char **argv)
 {
+    // Initialize the MPI environment
     MPI_Init(NULL, NULL);
 
+    // Get the rank of the process in MPI_COMM_WORLD
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if (rank == 0)
+    // --------------------------------------------
+    // Communication in MPI_COMM_WORLD (Default Communicator)
+    // --------------------------------------------
+
+    if (rank == 0) // Process 0
     {
-        int data = 100;
-        MPI_Send(&data, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
+        int data = 100;                                    // Data to send
+        MPI_Send(&data, 1, MPI_INT, 1, 0, MPI_COMM_WORLD); // Process 0 sends data to Process 1 with tag 0
     }
-    else if (rank == 1)
+    else if (rank == 1) // Process 1
     {
-        int data;
-        MPI_Recv(&data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        int data;                                                             // Buffer to receive data
+        MPI_Recv(&data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); // Process 1 receives data from Process 0 with tag 0
         printf("Process 1 received data: %d\n", data);
     }
 
+    // Finalize the MPI environment
     MPI_Finalize();
+
     return 0;
 }
 
