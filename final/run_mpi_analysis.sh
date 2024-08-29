@@ -16,7 +16,7 @@ if [[ $1 == "-v" ]]; then
 fi
 
 # Input C file to compile to LLVM IR
-FILENAME="mpi_example2.c"
+FILENAME="original.c"
 
 # Step 1: Compile $FILENAME C file to LLVM IR (input.ll)
 echo "🔍 Step 1: Compiling $FILENAME to LLVM IR (input.ll)"

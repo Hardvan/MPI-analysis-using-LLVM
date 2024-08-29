@@ -86,7 +86,7 @@ namespace
         // Function to analyze uniform participation patterns among MPI processes
         void analyzeUniformParticipation()
         {
-            errs() << "[INFO] Analyzing Uniform Participation Patterns...\n";
+            errs() << "\n[INFO] Analyzing Uniform Participation Patterns...\n\n";
 
             // Map to store ranks involved in each (comm, tag) pair
             std::map<std::pair<std::string, int>, std::set<int>> participationMap; // (comm, tag) -> {ranks}
