@@ -1,6 +1,21 @@
 #include <mpi.h>
 #include <stdio.h>
 
+/*
+Process communication:
+- Process 0 sends data to Process 1 with tag 0
+- Process 1 receives data from Process 0 with tag 0
+
+- Process 2 sends data to Process 3 with tag 1
+- Process 3 receives data from Process 2 with tag 1
+
+- Process 4 sends data to Process 5 with tag 2
+- Process 5 receives data from Process 4 with tag 2
+
+- Process 6 sends data to Process 7 with tag 3
+- Process 7 receives data from Process 6 with tag 3
+*/
+
 // MPI_Send format: MPI_Send(buffer, count, datatype, destination, tag, communicator)
 // MPI_Recv format: MPI_Recv(buffer, count, datatype, source, tag, communicator, status)
 
@@ -103,11 +118,11 @@ OUTPUT:
 
 🔍 Step 1: Compiling mpi_example.c to LLVM IR (input.ll)
 ⛓️  Executing: clang -I/usr/include/lam -emit-llvm -S mpi_example.c -o input.ll
-✅ Compiled in 83 ms
+✅ Compiled in 40 ms
 
 🔍 Step 2: Compiling MPIAnalysisPass.cpp to shared object (MPIAnalysisPass.so)
 ⛓️  Executing: clang++ -shared -fPIC -o MPIAnalysisPass.so MPIAnalysisPass.cpp `llvm-config --cxxflags --ldflags --libs`
-✅ Compiled in 4022 ms
+✅ Compiled in 3531 ms
 
 🔍 Step 3: Running mpi-analysis pass on input.ll
 ⛓️  Executing: opt -load-pass-plugin=./MPIAnalysisPass.so -passes="mpi-analysis" < input.ll > /dev/null
@@ -157,5 +172,5 @@ Uniform Participation Report:
 This indicates that both MPI_Send and MPI_Recv operations with tag 3 in communicator
 MPI_COMM_WORLD involve these ranks.
 
-✅ Ran mpi-analysis pass on input.ll in 26 ms
+✅ Ran mpi-analysis pass on input.ll in 17 ms
 */
