@@ -19,57 +19,40 @@ define dso_local i32 @main(i32 noundef %0, i8** noundef %1) #0 {
   %6 = alloca i32, align 4
   %7 = alloca i32, align 4
   %8 = alloca i32, align 4
-  %9 = alloca %struct._comm*, align 8
-  %10 = alloca i32, align 4
   store i32 0, i32* %3, align 4
   store i32 %0, i32* %4, align 4
   store i8** %1, i8*** %5, align 8
-  %11 = call i32 @MPI_Init(i32* noundef null, i8*** noundef null)
-  %12 = call i32 @MPI_Comm_rank(%struct._comm* noundef @lam_mpi_comm_world, i32* noundef %6)
-  %13 = load i32, i32* %6, align 4
-  %14 = icmp eq i32 %13, 0
-  br i1 %14, label %15, label %20
+  %9 = call i32 @MPI_Init(i32* noundef null, i8*** noundef null)
+  %10 = call i32 @MPI_Comm_rank(%struct._comm* noundef @lam_mpi_comm_world, i32* noundef %6)
+  %11 = load i32, i32* %6, align 4
+  %12 = icmp eq i32 %11, 0
+  br i1 %12, label %13, label %18
 
-15:                                               ; preds = %2
+13:                                               ; preds = %2
   store i32 100, i32* %7, align 4
+  %14 = bitcast i32* %7 to i8*
+  %15 = call i32 @MPI_Send(i8* noundef %14, i32 noundef 1, %struct._dtype* noundef @lam_mpi_int, i32 noundef 1, i32 noundef 0, %struct._comm* noundef @lam_mpi_comm_world)
   %16 = bitcast i32* %7 to i8*
-  %17 = call i32 @MPI_Send(i8* noundef %16, i32 noundef 1, %struct._dtype* noundef @lam_mpi_int, i32 noundef 1, i32 noundef 0, %struct._comm* noundef @lam_mpi_comm_world)
-  %18 = bitcast i32* %7 to i8*
-  %19 = call i32 @MPI_Send(i8* noundef %18, i32 noundef 1, %struct._dtype* noundef @lam_mpi_int, i32 noundef 2, i32 noundef 0, %struct._comm* noundef @lam_mpi_comm_world)
-  br label %29
+  %17 = call i32 @MPI_Send(i8* noundef %16, i32 noundef 1, %struct._dtype* noundef @lam_mpi_int, i32 noundef 2, i32 noundef 0, %struct._comm* noundef @lam_mpi_comm_world)
+  br label %27
 
-20:                                               ; preds = %2
-  %21 = load i32, i32* %6, align 4
-  %22 = icmp eq i32 %21, 1
-  br i1 %22, label %23, label %28
+18:                                               ; preds = %2
+  %19 = load i32, i32* %6, align 4
+  %20 = icmp eq i32 %19, 1
+  br i1 %20, label %21, label %26
 
-23:                                               ; preds = %20
-  %24 = bitcast i32* %8 to i8*
-  %25 = call i32 @MPI_Recv(i8* noundef %24, i32 noundef 1, %struct._dtype* noundef @lam_mpi_int, i32 noundef 0, i32 noundef 0, %struct._comm* noundef @lam_mpi_comm_world, %struct._status* noundef null)
-  %26 = load i32, i32* %8, align 4
-  %27 = call i32 (i8*, ...) @printf(i8* noundef getelementptr inbounds ([29 x i8], [29 x i8]* @.str, i64 0, i64 0), i32 noundef %26)
-  br label %28
+21:                                               ; preds = %18
+  %22 = bitcast i32* %8 to i8*
+  %23 = call i32 @MPI_Recv(i8* noundef %22, i32 noundef 1, %struct._dtype* noundef @lam_mpi_int, i32 noundef 0, i32 noundef 0, %struct._comm* noundef @lam_mpi_comm_world, %struct._status* noundef null)
+  %24 = load i32, i32* %8, align 4
+  %25 = call i32 (i8*, ...) @printf(i8* noundef getelementptr inbounds ([29 x i8], [29 x i8]* @.str, i64 0, i64 0), i32 noundef %24)
+  br label %26
 
-28:                                               ; preds = %23, %20
-  br label %29
+26:                                               ; preds = %21, %18
+  br label %27
 
-29:                                               ; preds = %28, %15
-  %30 = load i32, i32* %6, align 4
-  %31 = srem i32 %30, 2
-  %32 = load i32, i32* %6, align 4
-  %33 = call i32 @MPI_Comm_split(%struct._comm* noundef @lam_mpi_comm_world, i32 noundef %31, i32 noundef %32, %struct._comm** noundef %9)
-  %34 = load i32, i32* %6, align 4
-  %35 = icmp eq i32 %34, 2
-  br i1 %35, label %36, label %39
-
-36:                                               ; preds = %29
-  store i32 200, i32* %10, align 4
-  %37 = bitcast i32* %10 to i8*
-  %38 = call i32 @MPI_Recv(i8* noundef %37, i32 noundef 1, %struct._dtype* noundef @lam_mpi_int, i32 noundef 0, i32 noundef 0, %struct._comm* noundef @lam_mpi_comm_world, %struct._status* noundef null)
-  br label %39
-
-39:                                               ; preds = %36, %29
-  %40 = call i32 @MPI_Finalize()
+27:                                               ; preds = %26, %13
+  %28 = call i32 @MPI_Finalize()
   ret i32 0
 }
 
@@ -82,8 +65,6 @@ declare i32 @MPI_Send(i8* noundef, i32 noundef, %struct._dtype* noundef, i32 nou
 declare i32 @MPI_Recv(i8* noundef, i32 noundef, %struct._dtype* noundef, i32 noundef, i32 noundef, %struct._comm* noundef, %struct._status* noundef) #1
 
 declare i32 @printf(i8* noundef, ...) #1
-
-declare i32 @MPI_Comm_split(%struct._comm* noundef, i32 noundef, i32 noundef, %struct._comm** noundef) #1
 
 declare i32 @MPI_Finalize() #1
 

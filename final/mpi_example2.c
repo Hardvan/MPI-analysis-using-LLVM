@@ -41,6 +41,7 @@ int main(int argc, char **argv)
     {
         int data; // Buffer to receive data
         MPI_Recv(&data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        printf("Process 2 received data: %d\n", data);
     }
 
     // Finalize the MPI environment
