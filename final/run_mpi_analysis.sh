@@ -18,12 +18,13 @@ fi
 # Input C file to compile to LLVM IR
 FILENAME="mpi_example2.c"
 
-# Step 1: Compile $FILENAME to LLVM IR (input.ll)
+# Step 1: Compile $FILENAME C file to LLVM IR (input.ll)
 echo "🔍 Step 1: Compiling $FILENAME to LLVM IR (input.ll)"
 if $VERBOSE; then
     echo "⛓️  Executing: clang -I/usr/include/lam -emit-llvm -S $FILENAME -o input.ll"
 fi
 start_time=$(date +%s%N)
+# Command
 clang -I/usr/include/lam -emit-llvm -S $FILENAME -o input.ll
 end_time=$(date +%s%N)
 elapsed=$((($end_time - $start_time) / 1000000))
@@ -36,6 +37,7 @@ if $VERBOSE; then
     echo "⛓️  Executing: clang++ -shared -fPIC -o MPIAnalysisPass.so MPIAnalysisPass.cpp \`llvm-config --cxxflags --ldflags --libs\`"
 fi
 start_time=$(date +%s%N)
+# Command
 clang++ -shared -fPIC -o MPIAnalysisPass.so MPIAnalysisPass.cpp `llvm-config --cxxflags --ldflags --libs`
 end_time=$(date +%s%N)
 elapsed=$((($end_time - $start_time) / 1000000))
@@ -48,6 +50,7 @@ if $VERBOSE; then
     echo "⛓️  Executing: opt -load-pass-plugin=./MPIAnalysisPass.so -passes=\"mpi-analysis\" < input.ll > /dev/null"
 fi
 start_time=$(date +%s%N)
+# Command
 opt -load-pass-plugin=./MPIAnalysisPass.so -passes="mpi-analysis" < input.ll > /dev/null
 end_time=$(date +%s%N)
 elapsed=$((($end_time - $start_time) / 1000000))
