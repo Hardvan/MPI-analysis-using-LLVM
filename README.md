@@ -4,8 +4,8 @@ This project aims to analyze the uniform participation patterns of MPI processes
 
 ## Team Members
 
-1. Abhishek Yadav
-2. Hardik Pawar
+1. Hardik Pawar
+2. Abhishek Yadav
 3. Harshit Dhoot
 4. Karan Sathish
 
